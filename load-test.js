@@ -17,8 +17,13 @@ const postSlug = 'soak-2980'
 const addCommentUrl = `${url}/articles/${postSlug}/comments`
 
 export let options = {
-    vus: 50, //number of Virtual Users 
-    duration: '1m',
+    stages: [
+        { duration: '1m', target: 10 }, // ramp up to 20 VUs over 1 minute
+        { duration: '3m', target: 20 }, // stay at 20 VUs for 3 minutes
+        { duration: '1m', target: 60 }, // ramp up to 50 VUs over 1 minute
+        { duration: '3m', target: 60 }, // stay at 50 VUs for 3 minutes
+        { duration: '1m', target: 0 },  // ramp down to 0 VUs over 1 minute
+    ],
     thresholds: {
         http_req_duration: ['p(95)<500'], // 95% of requests must complete below 500ms
         add_comment_errors: ['count<10'], // Less than 10 errors are allowed for adding comments
@@ -48,7 +53,7 @@ export function setup() {
 
 export default function (data) {
     const authToken = data.authToken;
-    const commentNumber = (__VU - 1) * options.vus + __ITER + 1;
+    const commentNumber = (__VU - 1) * 3 + __ITER + 1;
     const comment = `Soak test comment ${commentNumber}`
 
     // Add comment
@@ -94,5 +99,5 @@ export default function (data) {
         deleteCommentErrors.add(1)
     }
 
-    sleep(1)
+    sleep(3)
 }
