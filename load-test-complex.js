@@ -18,11 +18,11 @@ let postSlug;
 
 export let options = {
     stages: [
-        { duration: '1m', target: 10 }, // ramp up to 10 VUs over 1 minute
-        { duration: '3m', target: 20 }, // stay at 20 VUs for 3 minutes
-        { duration: '1m', target: 60 }, // ramp up to 60 VUs over 1 minute
-        { duration: '3m', target: 60 }, // stay at 60 VUs for 3 minutes
-        { duration: '1m', target: 0 },  // ramp down to 0 VUs over 1 minute
+        { duration: '30s', target: 10 }, 
+        { duration: '30s', target: 20 }, 
+        { duration: '3m', target: 60 }, 
+        { duration: '3m', target: 60 }, 
+        { duration: '1m', target: 0 },  
     ],
     thresholds: {
         http_req_duration: ['p(95)<500'], // 95% of requests must complete below 500ms
