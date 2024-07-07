@@ -18,11 +18,11 @@ const addCommentUrl = `${url}/articles/${postSlug}/comments`
 
 export let options = {
     stages: [
-        { duration: '1m', target: 10 }, // ramp up to 20 VUs over 1 minute
-        { duration: '3m', target: 20 }, // stay at 20 VUs for 3 minutes
-        { duration: '1m', target: 60 }, // ramp up to 50 VUs over 1 minute
-        { duration: '3m', target: 60 }, // stay at 50 VUs for 3 minutes
-        { duration: '1m', target: 0 },  // ramp down to 0 VUs over 1 minute
+        { duration: '1m', target: 10 }, 
+        { duration: '3m', target: 20 }, 
+        { duration: '1m', target: 60 }, 
+        { duration: '3m', target: 60 }, 
+        { duration: '1m', target: 0 },  
     ],
     thresholds: {
         http_req_duration: ['p(95)<500'], // 95% of requests must complete below 500ms
