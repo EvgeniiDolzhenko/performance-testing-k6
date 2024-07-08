@@ -214,7 +214,7 @@ export function teardown(data) {
 **How to Run:**
 <p>Ensure you have K6 installed and use the following command to run the test:</p>
 
-<code>&lt;k6 run -e URL=<base_url> -e EMAIL=<your_email> -e PASS=<your_password> load-test-complex.js<code>&lt;
+<code>&lt;k6 run -e URL=<base_url> -e EMAIL=<your_email> -e PASS=<your_password> load-test-complex.js&gt;</code>
 
 
 <p>Replace <code>&lt;your_email&gt;</code>, <code>&lt;your_password&gt;</code>, and <code>&lt;base_url&gt;</code> with the appropriate values.</p>
