@@ -25,9 +25,9 @@ export let options = {
         { duration: '1m', target: 0 },  
     ],
     thresholds: {
-        http_req_duration: ['p(95)<500'], // 95% of requests must complete below 500ms
-        add_comment_errors: ['count<10'], // Less than 10 errors are allowed for adding comments
-        delete_post_errors: ['count<10'], // Less than 10 errors are allowed for deleting posts
+        http_req_duration: ['p(95)<500'], 
+        add_comment_errors: ['count<10'], 
+        delete_post_errors: ['count<10'], 
     },
 };
 
@@ -83,7 +83,7 @@ export default function (data) {
     const authToken = data.authToken;
     const postSlug = data.postSlug;
     const addCommentUrl = `${url}/articles/${postSlug}/comments`;
-    const commentNumber = (__VU - 1) * 3 + __ITER + 1;
+    const commentNumber = (__VU - 1) * 33 + __ITER + 1;
     const comment = `LOAD test comment ${commentNumber}`
 
     // Add comment
