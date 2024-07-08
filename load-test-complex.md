@@ -2,7 +2,7 @@ This load test script is designed to simulate a typical usage pattern of adding 
 
 <hr>
 
-Importing Required Modules and Metrics
+**Importing Required Modules and Metrics**
 ```
 import http from 'k6/http';
 import { check, sleep } from 'k6';
@@ -18,7 +18,7 @@ import { Counter } from 'k6/metrics';
 <hr>
 
 
-Custom Metrics
+**Custom Metrics**
 ```
 const addCommentErrors = new Counter('add_comment_errors');
 const deletePostErrors = new Counter('delete_post_errors');
@@ -43,7 +43,7 @@ let postSlug;
 </ul>
 <hr>
 
-Load Test Options
+**Load Test Options**
 ```
 export let options = {
     stages: [
@@ -73,7 +73,7 @@ export let options = {
 </ul>
 <hr>
 
-Setup Function
+**Setup Function**
 ```
 export function setup() {
     // Login to get the token
@@ -132,7 +132,7 @@ export function setup() {
 </ul>
 <hr>
 
-Default Function
+**Default Function**
 ```
 export default function (data) {
     const authToken = data.authToken;
@@ -176,7 +176,7 @@ export default function (data) {
 </ul>
 <hr>
 
-Teardown Function
+**Teardown Function**
 ```
 export function teardown(data) {
     const authToken = data.authToken;
@@ -204,14 +204,14 @@ export function teardown(data) {
 </ul>
 <hr>
 
-Environment Variables
+**Environment Variables**
 <ul>
 <li><b>EMAIL</b>: User email for login.</li>
 <li><b>PASS</b>: User password for login.</li>
 <li><b>URL</b>: Base URL of the application.</li>
 </ul>
 
-How to Run
+**How to Run:**
 <p>Ensure you have K6 installed and use the following command to run the test:</p>
 
 EMAIL=<your_email> PASS=<your_password> URL=<base_url> k6 run script.js
