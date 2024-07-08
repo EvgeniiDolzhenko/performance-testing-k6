@@ -123,4 +123,100 @@ export function setup() {
     return { authToken: authToken, postSlug: postSlug };
 }
 ```
+<ul>
+<li><b>setup()</b>: Runs once per test to set up initial conditions.</li>
+<ul>
+    <li>Logs in and retrieves an authentication token.</li>
+    <li>Creates a new post and stores its slug.</li>
+</ul>
+</ul>
+<hr>
+
+Default Function
+```
+export default function (data) {
+    const authToken = data.authToken;
+    const postSlug = data.postSlug;
+    const addCommentUrl = `${url}/articles/${postSlug}/comments`;
+    const commentNumber = (__VU - 1) * 3 + __ITER + 1;
+    const comment = `LOAD test comment ${commentNumber}`;
+
+    // Add comment
+    const addCommentRes = http.post(addCommentUrl, JSON.stringify({
+        comment: {
+            body: comment,
+        }
+    }), {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${authToken}`,
+        }
+    });
+
+    check(addCommentRes, {
+        'comment added': (res) => res.status === 200,
+        'response time < 600ms': (res) => res.timings.duration < 600,
+        'comment body is correct': (res) => {
+            const responseBody = JSON.parse(res.body);
+            return responseBody.comment.body === comment;
+        },
+        'no errors in body': (res) => !res.json('errors'),
+    }) || addCommentErrors.add(1);
+
+    sleep(3);
+}
+```
+<ul>
+<li><b>default()</b>: Executes for each virtual user.</li>
+<ul>
+    <li>Adds a comment to the post.</li>
+    <li>Checks for successful addition, response time, comment correctness, and absence of errors.</li>
+    <li>Increments the error counter if any check fails.</li>
+</ul>
+</ul>
+<hr>
+
+Teardown Function
+```
+export function teardown(data) {
+    const authToken = data.authToken;
+    const postSlug = data.postSlug;
+    const deletePostUrl = `${url}/articles/${postSlug}`;
+
+    const deletePostRes = http.del(deletePostUrl, null, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${authToken}`,
+        }
+    });
+
+    check(deletePostRes, {
+        'post deleted': (res) => res.status === 204,
+    }) || deletePostErrors.add(1);
+}
+```
+<ul>
+<li><b>teardown()</b>: Cleans up after the test.</li>
+<ul>
+    <li>Deletes the post created during setup.</li>
+    <li>Increments the error counter if the deletion fails.</li>
+</ul>
+</ul>
+<hr>
+
+Environment Variables
+<ul>
+<li><b>EMAIL</b>: User email for login.</li>
+<li><b>PASS</b>: User password for login.</li>
+<li><b>URL</b>: Base URL of the application.</li>
+</ul>
+
+How to Run
+<p>Ensure you have K6 installed and use the following command to run the test:</p>
+
+EMAIL=<your_email> PASS=<your_password> URL=<base_url> k6 run script.js
+
+<p>Replace <code>&lt;your_email&gt;</code>, <code>&lt;your_password&gt;</code>, and <code>&lt;base_url&gt;</code> with the appropriate values.</p>
+<hr>
+<p>This explanation should help users understand each part of the script and how to configure and run the load test.</p>
 
